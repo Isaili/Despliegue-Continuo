@@ -1,6 +1,14 @@
 pipeline {
     agent any
 
+    stage('Verificar NodeJS') {
+    steps {
+        sh 'node -v'
+        sh 'npm -v'
+    }
+}
+
+
     tools {
     nodejs "NodeJS-16"  
 }
