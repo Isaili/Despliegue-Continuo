@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+    nodejs "NodeJS-16"  
+}
+
     stages {
         stage('Clonar repositorio') {
             steps {
@@ -38,3 +42,5 @@ pipeline {
         }
     }
 }
+
+
