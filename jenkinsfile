@@ -1,23 +1,22 @@
 pipeline {
     agent any
 
-    stage('Verificar NodeJS') {
-    steps {
-        sh 'node -v'
-        sh 'npm -v'
-    }
-}
-
-
     tools {
-    nodejs "NodeJS-16"  
-}
+        nodejs "NodeJS-16"  // Debe coincidir exactamente con el nombre en Global Tool Configuration
+    }
 
     stages {
+
+        stage('Verificar NodeJS') {
+            steps {
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
         stage('Clonar repositorio') {
             steps {
                 git branch: 'develop', url: 'https://github.com/KiritoKazut0/ci-cd.git'
-
             }
         }
 
@@ -32,14 +31,15 @@ pipeline {
                 sh 'node src/index.js & sleep 5 && curl http://localhost:3000 && kill $!'
             }
         }
-        stage('Deploy'){
-            steps{
+
+        stage('Deploy') {
+            steps {
                 sh 'docker-compose down'
                 sh 'docker-compose up -d --build'
             }
         }
-    }
 
+    }
 
     post {
         success {
@@ -50,5 +50,3 @@ pipeline {
         }
     }
 }
-
-
